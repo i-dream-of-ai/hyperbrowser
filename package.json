@@ -1,0 +1,22 @@
+{
+  "version": "1.0.0",
+  "description": "Hyperbrowser Model Context Protocol Server",
+  "name": "hyperbrowser-mcp",
+  "type": "module",
+  "main": "build/server.js",
+  "scripts": {
+    "build": "tsc"
+  },
+  "files": [
+    "src"
+  ],
+  "dependencies": {
+    "@hyperbrowser/sdk": "^0.30.0",
+    "@modelcontextprotocol/sdk": "^1.6.0",
+    "ajv": "^8.17.1"
+  },
+  "devDependencies": {
+    "@types/node": "^16.11.7",
+    "typescript": "^4.5.2"
+  }
+}
