@@ -93,6 +93,16 @@ This tool crawls a list of webpages, optionally following links and limiting the
 - `outputFormat`: The format of the output (from a list of markdown, html, links, screenshot).
 - `followLinks`: Whether to follow links on the crawled webpages.
 - `maxPages`: The maximum number of pages to crawl.
+### Session Options
+
+The `sessionOptions` parameter allows you to configure various aspects of the browser session. It is an optional parameter and can include the following fields:
+
+- `useProxy`: (Optional) Whether to use a proxy.
+- `useStealth`: (Optional) Whether to use stealth mode.
+- `solveCaptchas`: (Optional) Whether to solve captchas.
+- `acceptCookies`: (Optional) Whether to automatically close the accept cookies popup.
+
+These options help in customizing the behavior of the browser session to suit your specific needs.
 
 ## Configuration
 
