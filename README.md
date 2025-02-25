@@ -56,6 +56,19 @@ This is an example config for the Hyperbrowser MCP server for the Claude Desktop
 }
 ```
 
+Other client (such as Cursor) do not support the `env` field in the config or as a part of the command param. In that case, you can use a shell script to run the server with the correct environment variable. An example shell script is provided in the repository as `run_server.sh`.
+
+```json
+{
+  "mcpServers": {
+    "hyperbrowser": {
+      "command": "bash",
+      "args": ["/path/to/hyperbrowser-mcp/run_server.sh"]
+    }
+  }
+}
+```
+
 ## Tools
 
 ### Scrape Webpage
@@ -93,6 +106,7 @@ This tool crawls a list of webpages, optionally following links and limiting the
 - `outputFormat`: The format of the output (from a list of markdown, html, links, screenshot).
 - `followLinks`: Whether to follow links on the crawled webpages.
 - `maxPages`: The maximum number of pages to crawl.
+
 ### Session Options
 
 The `sessionOptions` parameter allows you to configure various aspects of the browser session. It is an optional parameter and can include the following fields:
