@@ -2,6 +2,10 @@
 
 This project is a server implementation for the Hyperbrowser using the Model Context Protocol (MCP). The server provides various tools to scrape, extract structured data, and crawl webpages.
 
+More information about the Hyperbrowser can be found [here](https://docs.hyperbrowser.ai/). The hyperbrowser API supports a superset of features present in the mcp server.
+
+More information about the Model Context Protocol can be found [here](https://modelcontextprotocol.io/introduction).
+
 ## Table of Contents
 
 - [Installation](#installation)
