@@ -6,6 +6,7 @@ This project is a server implementation for the Hyperbrowser using the Model Con
 
 - [Installation](#installation)
 - [Usage](#usage)
+  - [Example config](#example-config)
 - [Tools](#tools)
   - [Scrape Webpage](#scrape-webpage)
   - [Extract Structured Data](#extract-structured-data)
@@ -16,6 +17,7 @@ This project is a server implementation for the Hyperbrowser using the Model Con
 ## Installation
 
 1. Clone the repository:
+
    ```sh
    git clone git@github.com:hyperbrowserai/mcp.git hyperbrowser-mcp
    cd hyperbrowser-mcp
@@ -28,12 +30,31 @@ This project is a server implementation for the Hyperbrowser using the Model Con
 
 ## Usage
 
-To start the server, run:
-   ```sh
-   npm run build # or yarn build
-   ```
+To build the server, run:
 
-The server will start and listen for incoming requests using the standard input/output (stdio) transport.
+```sh
+npm run build # or yarn build
+```
+
+To use the server, configure the service in your MCP client. An example config would be
+
+### Example config
+
+This is an example config for the Hyperbrowser MCP server for the Claude Desktop client.
+
+```json
+{
+  "mcpServers": {
+    "hyperbrowser": {
+      "command": "node",
+      "args": ["/path/to/hyperbrowser-mcp/build/server.js"],
+      "env": {
+        "HB_API_KEY": "your-api-key" // or set the environment variable in the prompt itself
+      }
+    }
+  }
+}
+```
 
 ## Tools
 
@@ -42,30 +63,34 @@ The server will start and listen for incoming requests using the standard input/
 This tool allows you to scrape a webpage and retrieve content in various formats such as markdown, HTML, links, and screenshots.
 
 #### Parameters:
+
 - `url`: The URL of the webpage to scrape.
 - `apiKey`: (Optional) The API key to use for the scrape.
 - `sessionOptions`: (Optional) Options for the browser session.
-- `outputFormat`: The format of the output (e.g., markdown, html, links, screenshot).
+- `outputFormat`: The format of the output (from a list of markdown, html, links, screenshot).
 
 ### Extract Structured Data
 
 This tool extracts structured information from a list of webpages using a specified prompt and JSON schema.
 
 #### Parameters:
+
 - `urls`: The list of URLs of the webpages to extract structured information from.
 - `apiKey`: (Optional) The API key to use for the extraction.
-- `prompt`: The prompt to use for the extraction.
-- `schema`: The JSON schema to use for the extraction.
+- `sessionOptions`: (Optional) Options for the browser session.
+- `prompt`: (Optional - if not provided, the tool will try to infer the prompt from the schema) The prompt to use for the extraction.
+- `schema`: (Optional - if not provided, the tool will try to infer the schema from the prompt) The JSON schema to use for the extraction.
 
 ### Crawl Webpages
 
 This tool crawls a list of webpages, optionally following links and limiting the number of pages.
 
 #### Parameters:
+
 - `url`: The URL of the webpage to crawl.
 - `apiKey`: (Optional) The API key to use for the crawl.
 - `sessionOptions`: (Optional) Options for the browser session.
-- `outputFormat`: The format of the output (e.g., markdown, html, links, screenshot).
+- `outputFormat`: The format of the output (from a list of markdown, html, links, screenshot).
 - `followLinks`: Whether to follow links on the crawled webpages.
 - `maxPages`: The maximum number of pages to crawl.
 
@@ -75,5 +100,4 @@ The server can be configured using environment variables or by modifying the sou
 
 ## License
 
-This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for details.
-
+This project is licensed under the MIT License.
