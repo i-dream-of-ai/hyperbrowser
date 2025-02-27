@@ -1,9 +1,10 @@
+import { z } from "zod";
+import { Ajv } from "ajv";
 import { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
 import { StdioServerTransport } from "@modelcontextprotocol/sdk/server/stdio.js";
-import { z } from "zod";
-import { downloadImageAsBase64, getClient, logWithTimestamp } from "./utils.js";
 import { CallToolResult } from "@modelcontextprotocol/sdk/types.js";
-import { Ajv } from "ajv";
+
+import { downloadImageAsBase64, getClient, logWithTimestamp } from "./utils.js";
 
 const ajv = new Ajv({
   coerceTypes: true,
@@ -37,7 +38,7 @@ const apiKeySchema = z
 
 // Register hyperbrowser tools
 server.tool(
-  "scrape-webpage",
+  "scrape_webpage",
   "Scrape a webpage",
   {
     url: z.string().url().describe("The URL of the webpage to scrape"),
@@ -141,8 +142,8 @@ server.tool(
 );
 
 server.tool(
-  "extract-structured-data",
-  "Extract structured-information from a webpage",
+  "extract_structured_data",
+  "Extract a JSON object from one or more websites",
   {
     urls: z
       .array(z.string().url())
@@ -245,7 +246,7 @@ server.tool(
 );
 
 server.tool(
-  "crawl-webpages",
+  "crawl_webpages",
   "Crawl a list of webpages",
   {
     url: z.string().url().describe("The URL of the webpage to crawl."),
