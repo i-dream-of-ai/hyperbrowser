@@ -1,7 +1,7 @@
 import { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
 import { StdioServerTransport } from "@modelcontextprotocol/sdk/server/stdio.js";
 import { z } from "zod";
-import { getClient, logWithTimestamp } from "./utils.js";
+import { downloadImageAsBase64, getClient, logWithTimestamp } from "./utils.js";
 import { CallToolResult } from "@modelcontextprotocol/sdk/types.js";
 import { Ajv } from "ajv";
 
@@ -120,11 +120,20 @@ server.tool(
     }
 
     if (result.data?.screenshot) {
-      response.content.push({
-        type: "image",
-        data: result.data.screenshot,
-        mimeType: "image/webp",
-      });
+      const imageData = await downloadImageAsBase64(result.data.screenshot);
+      if (!imageData) {
+        response.content.push({
+          type: "text",
+          text: "Failed to download screenshot",
+        });
+        response.isError = true;
+      } else {
+        response.content.push({
+          type: "image",
+          data: imageData.data,
+          mimeType: imageData.mimeType,
+        });
+      }
     }
 
     return response;
