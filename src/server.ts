@@ -39,7 +39,7 @@ const apiKeySchema = z
 // Register hyperbrowser tools
 server.tool(
   "scrape_webpage",
-  "Scrape a webpage",
+  "Scrape a webpage and extract its content in various formats. This tool allows fetching content from a single URL with configurable browser behavior options. Use this for extracting text content, HTML structure, collecting links, or capturing screenshots of webpages.",
   {
     url: z.string().url().describe("The URL of the webpage to scrape"),
     apiKey: apiKeySchema,
@@ -143,7 +143,7 @@ server.tool(
 
 server.tool(
   "extract_structured_data",
-  "Extract a JSON object from one or more websites",
+  "Extract structured data from one or more webpages according to a specified schema. This tool parses webpage content and returns JSON-formatted data based on your prompt instructions. Ideal for extracting product information, article metadata, contact details, or any structured content from websites.",
   {
     urls: z
       .array(z.string().url())
@@ -247,7 +247,7 @@ server.tool(
 
 server.tool(
   "crawl_webpages",
-  "Crawl a list of webpages",
+  "Crawl a website starting from a URL and explore linked pages. This tool allows systematic collection of content from multiple pages within a domain. Use this for larger data collection tasks, content indexing, or site mapping.",
   {
     url: z.string().url().describe("The URL of the webpage to crawl."),
     apiKey: apiKeySchema,
