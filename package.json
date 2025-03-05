@@ -4,7 +4,7 @@
   "name": "hyperbrowser-mcp",
   "main": "./dist/server.js",
   "bin": {
-    "hyperbrowser-mcp": "./dist/server.js"
+    "hyperbrowser-mcp": "dist/server.js"
   },
   "files": [
     "dist"
