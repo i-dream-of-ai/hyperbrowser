@@ -16,7 +16,7 @@ const ajv = new Ajv({
 // Create server instance
 const server = new McpServer({
   name: "hyperbrowser",
-  version: "1.0.3",
+  version: "1.0.4",
 });
 
 const sessionOptionsSchema = z
