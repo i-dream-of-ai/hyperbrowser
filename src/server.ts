@@ -16,7 +16,7 @@ const ajv = new Ajv({
 // Create server instance
 const server = new McpServer({
   name: "hyperbrowser",
-  version: "1.0.2",
+  version: "1.0.3",
 });
 
 const sessionOptionsSchema = z
@@ -58,7 +58,7 @@ server.tool(
     sessionOptions,
     outputFormat,
   }): Promise<CallToolResult> => {
-    const currentApiKey = apiKey ?? process.env.HB_API_KEY;
+    const currentApiKey = apiKey ?? process.env.HB_API_KEY ?? process.env.HYPERBROWSER_API_KEY;
     if (!currentApiKey) {
       return {
         content: [
@@ -199,7 +199,7 @@ server.tool(
     prompt,
     schema,
   }): Promise<CallToolResult> => {
-    const currentApiKey = apiKey ?? process.env.HB_API_KEY;
+    const currentApiKey = apiKey ?? process.env.HB_API_KEY ?? process.env.HYPERBROWSER_API_KEY;
     if (!currentApiKey) {
       return {
         content: [
@@ -282,7 +282,7 @@ server.tool(
     followLinks,
     maxPages,
   }): Promise<CallToolResult> => {
-    const currentApiKey = apiKey ?? process.env.HB_API_KEY;
+    const currentApiKey = apiKey ?? process.env.HB_API_KEY ?? process.env.HYPERBROWSER_API_KEY;
     if (!currentApiKey) {
       return {
         content: [
