@@ -16,18 +16,24 @@ const ajv = new Ajv({
 // Create server instance
 const server = new McpServer({
   name: "hyperbrowser",
-  version: "1.0.4",
+  version: "1.0.5",
 });
 
 const sessionOptionsSchema = z
   .object({
-    useProxy: z.boolean().default(false).describe("Whether to use a proxy"),
-    useStealth: z.boolean().default(false).describe("Whether to use stealth mode."),
-    solveCaptchas: z.boolean().default(false).describe("Whether to solve captchas."),
+    useProxy: z.boolean().default(false).describe("Whether to use a proxy. Recommended true."),
+    useStealth: z
+      .boolean()
+      .default(false)
+      .describe("Whether to use stealth mode. Recommended false."),
+    solveCaptchas: z
+      .boolean()
+      .default(false)
+      .describe("Whether to solve captchas. Recommended false."),
     acceptCookies: z
       .boolean()
       .default(false)
-      .describe("Whether to automatically close the accept cookies popup"),
+      .describe("Whether to automatically close the accept cookies popup. Recommended false."),
   })
   .optional()
   .describe(
@@ -58,7 +64,8 @@ server.tool(
     sessionOptions,
     outputFormat,
   }): Promise<CallToolResult> => {
-    const currentApiKey = apiKey ?? process.env.HB_API_KEY ?? process.env.HYPERBROWSER_API_KEY;
+    const currentApiKey =
+      apiKey ?? process.env.HB_API_KEY ?? process.env.HYPERBROWSER_API_KEY;
     if (!currentApiKey) {
       return {
         content: [
@@ -199,7 +206,8 @@ server.tool(
     prompt,
     schema,
   }): Promise<CallToolResult> => {
-    const currentApiKey = apiKey ?? process.env.HB_API_KEY ?? process.env.HYPERBROWSER_API_KEY;
+    const currentApiKey =
+      apiKey ?? process.env.HB_API_KEY ?? process.env.HYPERBROWSER_API_KEY;
     if (!currentApiKey) {
       return {
         content: [
@@ -282,7 +290,8 @@ server.tool(
     followLinks,
     maxPages,
   }): Promise<CallToolResult> => {
-    const currentApiKey = apiKey ?? process.env.HB_API_KEY ?? process.env.HYPERBROWSER_API_KEY;
+    const currentApiKey =
+      apiKey ?? process.env.HB_API_KEY ?? process.env.HYPERBROWSER_API_KEY;
     if (!currentApiKey) {
       return {
         content: [
@@ -358,6 +367,76 @@ server.tool(
           mimeType: "image/webp",
         });
       }
+    });
+
+    return response;
+  }
+);
+
+server.tool(
+  "browser_use",
+  "Perform a certain task inside a browser session. Will perform the entirety of the task inside the browser, and return the results.",
+  {
+    task: z.string().describe("The task to perform inside the browser"),
+    apiKey: apiKeySchema,
+    sessionOptions: sessionOptionsSchema,
+    maxSteps: z
+      .number()
+      .int()
+      .positive()
+      .finite()
+      .safe()
+      .min(1)
+      .max(1000)
+      .default(10),
+  },
+  async ({
+    task,
+    apiKey,
+    sessionOptions,
+    maxSteps,
+  }): Promise<CallToolResult> => {
+    const currentApiKey =
+      apiKey ?? process.env.HB_API_KEY ?? process.env.HYPERBROWSER_API_KEY;
+    if (!currentApiKey) {
+      return {
+        content: [
+          {
+            type: "text",
+            text: "No API key provided or found in environment variables",
+          },
+        ],
+        isError: true,
+      };
+    }
+    const client = await getClient(currentApiKey);
+
+    const result = await client.beta.agents.browserUse.startAndWait({
+      task,
+      sessionOptions,
+      maxSteps,
+    });
+
+    if (result.error) {
+      return {
+        isError: true,
+        content: [
+          {
+            type: "text",
+            text: result.error,
+          },
+        ],
+      };
+    }
+
+    const response: CallToolResult = {
+      content: [],
+      isError: false,
+    };
+
+    response.content.push({
+      type: "text",
+      text: JSON.stringify(result.data),
     });
 
     return response;
