@@ -16,12 +16,15 @@ const ajv = new Ajv({
 // Create server instance
 const server = new McpServer({
   name: "hyperbrowser",
-  version: "1.0.5",
+  version: "1.0.6",
 });
 
 const sessionOptionsSchema = z
   .object({
-    useProxy: z.boolean().default(false).describe("Whether to use a proxy. Recommended true."),
+    useProxy: z
+      .boolean()
+      .default(false)
+      .describe("Whether to use a proxy. Recommended true."),
     useStealth: z
       .boolean()
       .default(false)
@@ -33,7 +36,9 @@ const sessionOptionsSchema = z
     acceptCookies: z
       .boolean()
       .default(false)
-      .describe("Whether to automatically close the accept cookies popup. Recommended false."),
+      .describe(
+        "Whether to automatically close the accept cookies popup. Recommended false."
+      ),
   })
   .optional()
   .describe(
@@ -380,6 +385,12 @@ server.tool(
     task: z.string().describe("The task to perform inside the browser"),
     apiKey: apiKeySchema,
     sessionOptions: sessionOptionsSchema,
+    returnStepInfo: z
+      .boolean()
+      .default(false)
+      .describe(
+        "Whether to return step-by-step information about the task.Should be false by default. May contain excessive information."
+      ),
     maxSteps: z
       .number()
       .int()
@@ -394,6 +405,7 @@ server.tool(
     task,
     apiKey,
     sessionOptions,
+    returnStepInfo,
     maxSteps,
   }): Promise<CallToolResult> => {
     const currentApiKey =
@@ -434,10 +446,24 @@ server.tool(
       isError: false,
     };
 
-    response.content.push({
-      type: "text",
-      text: JSON.stringify(result.data),
-    });
+    if (result.data) {
+      let taskData = result.data;
+
+      if (returnStepInfo) {
+        taskData.steps = [];
+      }
+
+      response.content.push({
+        type: "text",
+        text: JSON.stringify(taskData),
+      });
+    } else {
+      response.content.push({
+        type: "text",
+        text: "Task result data is empty/missing",
+        isError: true,
+      });
+    }
 
     return response;
   }
