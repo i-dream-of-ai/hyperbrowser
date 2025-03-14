@@ -16,7 +16,7 @@ const ajv = new Ajv({
 // Create server instance
 const server = new McpServer({
   name: "hyperbrowser",
-  version: "1.0.6",
+  version: "1.0.7",
 });
 
 const sessionOptionsSchema = z
@@ -449,7 +449,7 @@ server.tool(
     if (result.data) {
       let taskData = result.data;
 
-      if (returnStepInfo) {
+      if (!returnStepInfo) {
         taskData.steps = [];
       }
 
