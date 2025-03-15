@@ -38,6 +38,7 @@ For development purposes, you can run the server directly from the source code.
    ```
 
 2. Install dependencies:
+
    ```sh
    npm install # or yarn install
    npm run build
@@ -58,9 +59,9 @@ This is an example config for the Hyperbrowser MCP server for the Claude Desktop
   "mcpServers": {
     "hyperbrowser": {
       "command": "npx",
-      "args": ["hyperbrowser-mcp"],
+      "args": ["hyperbrowser-mcp", "-y"],
       "env": {
-        "HB_API_KEY": "your-api-key" // or set the param in the prompt itself
+        "HYPERBROWSER_API_KEY": "your-api-key" // or set the param in the prompt itself
       }
     }
   }
@@ -80,6 +81,24 @@ Other client (such as Cursor) do not support the `env` field in the config or as
 }
 ```
 
+### Running with SSE
+
+The server can also be run in Server-Sent Events (SSE) mode, which allows for real-time communication over HTTP. To run the server in SSE mode, use the `--sse` flag:
+
+```json
+{
+  "mcpServers": {
+    "hyperbrowser": {
+      "command": "npx",
+      "args": ["hyperbrowser-mcp", "-y", "--sse"],
+      "env": {
+        "HYPERBROWSER_API_KEY": "your-api-key" // or set the param in the prompt itself
+      }
+    }
+  }
+}
+```
+
 If for some reason you can't provide the API key in the config or in a shell script, you can set it within whatever prompt you are using. It will be upto the mcp client to pass it to the server.
 
 ## Tools
@@ -91,7 +110,7 @@ This tool allows you to scrape a webpage and retrieve content in various formats
 #### Parameters:
 
 - `url`: The URL of the webpage to scrape.
-- `apiKey`: (Optional) The API key to use for the scrape.
+- `apiKey`: (Optional) The API key to use for browser control. If not provided, then will look for the API Key in the environment variables.
 - `sessionOptions`: (Optional) Options for the browser session.
 - `outputFormat`: The format of the output (from a list of markdown, html, links, screenshot).
 
@@ -102,7 +121,7 @@ This tool extracts structured information from a list of webpages using a specif
 #### Parameters:
 
 - `urls`: The list of URLs of the webpages to extract structured information from.
-- `apiKey`: (Optional) The API key to use for the extraction.
+- `apiKey`: (Optional) The API key to use for browser control. If not provided, then will look for the API Key in the environment variables.
 - `sessionOptions`: (Optional) Options for the browser session.
 - `prompt`: (Optional - if not provided, the tool will try to infer the prompt from the schema) The prompt to use for the extraction.
 - `schema`: (Optional - if not provided, the tool will try to infer the schema from the prompt) The JSON schema to use for the extraction.
@@ -114,11 +133,24 @@ This tool crawls a list of webpages, optionally following links and limiting the
 #### Parameters:
 
 - `url`: The URL of the webpage to crawl.
-- `apiKey`: (Optional) The API key to use for the crawl.
+- `apiKey`: (Optional) The API key to use for browser control. If not provided, then will look for the API Key in the environment variables.
 - `sessionOptions`: (Optional) Options for the browser session.
 - `outputFormat`: The format of the output (from a list of markdown, html, links, screenshot).
 - `followLinks`: Whether to follow links on the crawled webpages.
 - `maxPages`: The maximum number of pages to crawl.
+
+### Browser Use
+
+This tool creates a Browser Use session, and uses taht to accomplish the task provided.
+**Note: This can be a very long running process depending on the task, so make sure that the timeout is configured accordingly.**
+
+#### Parameters:
+
+- `task`: The task to accomplish using Browser Use.
+- `apiKey`: (Optional) The API key to use for browser control. If not provided, then will look for the API Key in the environment variables.
+- `sessionOptions`: (Optional) Options for the browser session.
+- `returnStepInfo`: (Optional) Returns the information about the intermediate steps taked. **Note that this is a large amount of information and can fill up the context window very quickly. We recommend setting this to `false`**.
+- `maxSteps`: (Optional) The maximum number of steps to perform while doing the task.
 
 ### Session Options
 
@@ -131,9 +163,13 @@ The `sessionOptions` parameter allows you to configure various aspects of the br
 
 These options help in customizing the behavior of the browser session to suit your specific needs.
 
+## Resources
+
+The server provides the documentation about hyperbrowser through the `resources` methods. Any client which can do discovery over resources has access to it.
+
 ## Configuration
 
-The server can be configured using environment variables or by modifying the source code directly. Ensure that the `HB_API_KEY` environment variable is set if you are not providing an API key directly in the requests.
+The server can be configured using environment variables or by modifying the source code directly. Ensure that the `HYPERBROWSER_API_KEY` environment variable is set if you are not providing an API key directly in the requests.
 
 ## License
 

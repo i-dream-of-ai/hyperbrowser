@@ -156,7 +156,7 @@ export const browserUseToolParamSchemaRaw = {
     .boolean()
     .default(false)
     .describe(
-      "Whether to return step-by-step information about the task.Should be false by default. May contain excessive information."
+      "Whether to return step-by-step information about the task.Should be false by default. May contain excessive information, so we strongly recommend setting this to false."
     ),
   maxSteps: z
     .number()
