@@ -59,7 +59,7 @@ This is an example config for the Hyperbrowser MCP server for the Claude Desktop
   "mcpServers": {
     "hyperbrowser": {
       "command": "npx",
-      "args": ["hyperbrowser-mcp", "-y"],
+      "args": ["--yes", "hyperbrowser-mcp"],
       "env": {
         "HYPERBROWSER_API_KEY": "your-api-key" // or set the param in the prompt itself
       }
@@ -90,7 +90,7 @@ The server can also be run in Server-Sent Events (SSE) mode, which allows for re
   "mcpServers": {
     "hyperbrowser": {
       "command": "npx",
-      "args": ["hyperbrowser-mcp", "-y", "--sse"],
+      "args": ["--yes", "hyperbrowser-mcp", "--sse"],
       "env": {
         "HYPERBROWSER_API_KEY": "your-api-key" // or set the param in the prompt itself
       }
