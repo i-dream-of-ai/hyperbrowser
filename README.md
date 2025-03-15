@@ -85,18 +85,16 @@ Other client (such as Cursor) do not support the `env` field in the config or as
 
 The server can also be run in Server-Sent Events (SSE) mode, which allows for real-time communication over HTTP. To run the server in SSE mode, use the `--sse` flag:
 
-```json
-{
-  "mcpServers": {
-    "hyperbrowser": {
-      "command": "npx",
-      "args": ["--yes", "hyperbrowser-mcp", "--sse"],
-      "env": {
-        "HYPERBROWSER_API_KEY": "your-api-key" // or set the param in the prompt itself
-      }
-    }
-  }
-}
+```bash
+npx --yes hyperbrowser-mcp --sse
+```
+
+## Specifying the port for SSE
+
+By default, the SSE server will start on port 3001. The port can be customized using the `SSE_PORT` env var.
+
+```bash
+SSE_PORT=3010 npx --yes hyperbrowser-mcp --sse
 ```
 
 If for some reason you can't provide the API key in the config or in a shell script, you can set it within whatever prompt you are using. It will be upto the mcp client to pass it to the server.
