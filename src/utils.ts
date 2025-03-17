@@ -1,6 +1,13 @@
+import { config } from "dotenv";
 import { Hyperbrowser } from "@hyperbrowser/sdk";
 
-export const getClient = async (apiKey: string) => {
+config();
+
+export const getClient = async () => {
+  const apiKey = process.env.HB_API_KEY || process.env.HYPERBROWSER_API_KEY;
+  if (!apiKey) {
+    throw new Error("No API key provided or found in environment variables");
+  }
   return new Hyperbrowser({ apiKey });
 };
 

@@ -32,16 +32,10 @@ export const sessionOptionsSchema = z
     "Options for the browser session. Avoid setting these if not mentioned explicitly"
   );
 
-export const apiKeySchema = z
-  .string()
-  .optional()
-  .describe("The API key to use for the scrape");
-
 // Scrape Webpage
 
 export const scrapeWebpageToolParamSchemaRaw = {
   url: z.string().url().describe("The URL of the webpage to scrape"),
-  apiKey: apiKeySchema,
   sessionOptions: sessionOptionsSchema,
   outputFormat: z
     .array(z.enum(["markdown", "html", "links", "screenshot"]))
@@ -65,7 +59,6 @@ export const extractStructuredDataToolParamSchemaRaw = {
     .describe(
       "The list of URLs of the webpages to extract structured information from. Can include wildcards (e.g. https://example.com/*)"
     ),
-  apiKey: apiKeySchema,
   prompt: z.string().describe("The prompt to use for the extraction"),
   schema: z
     .any({})
@@ -117,7 +110,6 @@ export type extractStructuredDataToolParamSchemaType = z.infer<
 
 export const crawlWebpagesToolParamSchemaRaw = {
   url: z.string().url().describe("The URL of the webpage to crawl."),
-  apiKey: apiKeySchema,
   sessionOptions: sessionOptionsSchema,
   outputFormat: z
     .array(z.enum(["markdown", "html", "links", "screenshot"]))
@@ -150,7 +142,6 @@ export type crawlWebpagesToolParamSchemaType = z.infer<
 
 export const browserUseToolParamSchemaRaw = {
   task: z.string().describe("The task to perform inside the browser"),
-  apiKey: apiKeySchema,
   sessionOptions: sessionOptionsSchema,
   returnStepInfo: z
     .boolean()

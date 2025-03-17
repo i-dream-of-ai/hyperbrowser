@@ -1,6 +1,9 @@
 #!/usr/bin/env node
 
-import "dotenv/config";
+import { config } from "dotenv";
+
+config();
+
 import { logWithTimestamp } from "./utils.js";
 import { createSSEServer } from "./transports/sse.js";
 import { createStdioServer } from "./transports/stdio.js";
