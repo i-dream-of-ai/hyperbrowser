@@ -1,1 +1,1 @@
-HB_API_KEY="[your-api-key]" node build/server.js
+HYPERBROWSER_API_KEY="[your-api-key]" npx -y hyperbrowser-mcp
