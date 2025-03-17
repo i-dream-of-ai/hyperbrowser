@@ -13,15 +13,14 @@ type Summary = {
   data: CrawledPage | undefined;
 };
 
-const urlToDataMap: BasicSummary = JSON.parse(
-  fs.readFileSync(process.argv[2], "utf8")
-);
-
 const openai = new OpenAI({
   apiKey: process.env.OPENAI_API_KEY,
 });
 
 export const summarize = async (inputPath: string, outputPath: string) => {
+  const urlToDataMap: BasicSummary = JSON.parse(
+    fs.readFileSync(inputPath, "utf8")
+  );
   const summaries: Summary[] = [];
   const batchSize = 5;
   const totalBatches = Math.ceil(urlToDataMap.length / batchSize);
@@ -68,6 +67,6 @@ export const summarize = async (inputPath: string, outputPath: string) => {
   }
 
   console.log("Processing complete! Writing results to file...");
-  fs.writeFileSync("summarized.json", JSON.stringify(summaries, null, 2));
+  fs.writeFileSync(outputPath, JSON.stringify(summaries, null, 2));
   return summaries;
 };

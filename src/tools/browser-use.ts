@@ -11,7 +11,7 @@ export async function browserUseTool({
   try {
     const client = await getClient();
 
-    const result = await client.beta.agents.browserUse.startAndWait({
+    const result = await client.agents.browserUse.startAndWait({
       task,
       sessionOptions,
       maxSteps,

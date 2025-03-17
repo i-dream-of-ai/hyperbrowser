@@ -1,5 +1,5 @@
 {
-  "version": "1.0.10",
+  "version": "1.0.11",
   "description": "Hyperbrowser Model Context Protocol Server",
   "name": "hyperbrowser-mcp",
   "main": "./dist/server.js",
@@ -20,7 +20,7 @@
     "format": "prettier --write ."
   },
   "dependencies": {
-    "@hyperbrowser/sdk": "^0.34.0",
+    "@hyperbrowser/sdk": "^0.36.0",
     "@modelcontextprotocol/sdk": "^1.6.0",
     "ajv": "^8.17.1",
     "axios": "^1.8.3",

@@ -1,6 +1,8 @@
 const GENERATE_STATIC_DATA_PATH = "static_data.json";
 const SUMMARIZE_STATIC_DATA_PATH = "summarized.json";
 
+import "dotenv/config";
+
 import { generate_statics } from "./generate_statics";
 import { summarize } from "./summarize_statics";
 
