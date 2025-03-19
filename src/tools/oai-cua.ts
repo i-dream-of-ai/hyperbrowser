@@ -1,9 +1,9 @@
+import { config } from "dotenv";
 import { CallToolResult } from "@modelcontextprotocol/sdk/types.js";
 import { getClient } from "../utils";
 import { browserUseToolParamSchemaType } from "./tool-types";
-import { oaiCuaToolName } from "./oai-cua";
 
-export async function browserUseTool({
+export async function oaiCuaTool({
   task,
   sessionOptions,
   returnStepInfo,
@@ -12,7 +12,7 @@ export async function browserUseTool({
   try {
     const client = await getClient();
 
-    const result = await client.agents.browserUse.startAndWait({
+    const result = await client.agents.cua.startAndWait({
       task,
       sessionOptions,
       maxSteps,
@@ -42,9 +42,13 @@ export async function browserUseTool({
         taskData.steps = [];
       }
 
+      const toolResultText = `Final Result: ${
+        taskData.finalResult
+      }\n\nSteps: ${JSON.stringify(taskData.steps, null, 2)}`;
+
       response.content.push({
         type: "text",
-        text: JSON.stringify(taskData),
+        text: toolResultText,
       });
     } else {
       response.content.push({
@@ -63,26 +67,21 @@ export async function browserUseTool({
   }
 }
 
-export const browserUseToolName = "browser_use_agent";
-export const browserUseToolDescription = `
-This tool uses an open-source browser automation agent to perform browser-based tasks using a cloud browser. \
-It can navigate websites, fill forms, extract information, and interact with web applications.
+export const oaiCuaToolName = "openai_computer_use_agent";
+export const oaiCuaToolDescription = `
+This tool uses OpenAI's Computer Use Agent (CUA) to autonomously perform complex browser-based tasks using a cloud browser.
+It can navigate websites, fill forms, extract information, and interact with web applications with human-like behavior.
 
 This tool is ideal for tasks that require multi-step browser interactions that cannot be accomplished with simpler tools \
 like scraping, screenshots, or web extraction. For optimal results:
-1. Provide **extremely detailed, explicit step-by-step instructions** for the task
-2. Include **all** relevant context (credentials, form data, specific instructions)
-3. Specify the **exact elements** to interact with and **precise actions** to take
-4. Clearly define the **expected outcome** or information to retrieve
+1. Provide a detailed, step-by-step description of the task
+2. Include all relevant context (credentials, form data, specific instructions)
+3. Specify the expected outcome or information to retrieve
 
 Example use cases:
-- Completing registration processes with explicit guidance
-- Navigating web applications with detailed instructions
-- Performing research across multiple pages with clear directions
-- Extracting data that requires specific interaction steps
-
-Note: This agent requires more explicit guidance than other tools but offers faster performance and lower cost. \
-Be prepared to provide **very detailed instructions** for optimal results. If you need higher accuracy but are \
-willing to spend more time and money on the task, you should use the ${oaiCuaToolName} tool instead.
+- Completing multi-step registration processes
+- Navigating complex web applications
+- Performing research across multiple pages
+- Extracting data that requires interaction
 
 The tool will return the final result upon completion or an error message if it encounters issues.`.trim();

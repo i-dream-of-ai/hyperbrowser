@@ -10,7 +10,7 @@ export const sessionOptionsSchema = z
   .object({
     useProxy: z
       .boolean()
-      .default(false)
+      .default(true)
       .describe("Whether to use a proxy. Recommended true."),
     useStealth: z
       .boolean()
@@ -165,3 +165,29 @@ export const browserUseToolParamSchema = z.object(browserUseToolParamSchemaRaw);
 export type browserUseToolParamSchemaType = z.infer<
   typeof browserUseToolParamSchema
 >;
+
+// OAI CUA
+
+export const oaiCuaToolParamSchemaRaw = {
+  task: z.string().describe("The task to perform inside the browser"),
+  sessionOptions: sessionOptionsSchema,
+  returnStepInfo: z
+    .boolean()
+    .default(false)
+    .describe(
+      "Whether to return step-by-step information about the task.Should be false by default. May contain excessive information, so we strongly recommend setting this to false."
+    ),
+  maxSteps: z
+    .number()
+    .int()
+    .positive()
+    .finite()
+    .safe()
+    .min(1)
+    .max(1000)
+    .default(10),
+};
+
+export const oaiCuaToolParamSchema = z.object(oaiCuaToolParamSchemaRaw);
+
+export type oaiCuaToolParamSchemaType = z.infer<typeof oaiCuaToolParamSchema>;

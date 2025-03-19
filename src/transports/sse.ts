@@ -9,6 +9,8 @@ import setupServer from "./setup_server";
 function setupSSE(app: express.Application, server: McpServer) {
   setupServer(server);
 
+  console.log("Setting up SSE server");
+
   let transport: SSEServerTransport;
 
   app.get("/sse", async (req, res) => {

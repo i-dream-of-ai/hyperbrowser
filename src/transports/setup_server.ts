@@ -1,5 +1,9 @@
 import { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
-
+import {
+  oaiCuaTool,
+  oaiCuaToolDescription,
+  oaiCuaToolName,
+} from "../tools/oai-cua";
 import {
   browserUseTool,
   browserUseToolDescription,
@@ -24,6 +28,7 @@ import {
   browserUseToolParamSchemaRaw,
   crawlWebpagesToolParamSchemaRaw,
   extractStructuredDataToolParamSchemaRaw,
+  oaiCuaToolParamSchemaRaw,
   scrapeWebpageToolParamSchemaRaw,
 } from "../tools/tool-types";
 import {
@@ -59,6 +64,12 @@ function setupServer(server: McpServer) {
     browserUseToolDescription,
     browserUseToolParamSchemaRaw,
     browserUseTool
+  );
+  server.tool(
+    oaiCuaToolName,
+    oaiCuaToolDescription,
+    oaiCuaToolParamSchemaRaw,
+    oaiCuaTool
   );
 
   server.server.setRequestHandler(ListResourcesRequestSchema, listAllResources);
