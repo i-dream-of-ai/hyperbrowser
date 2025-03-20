@@ -1,5 +1,5 @@
 {
-  "version": "1.0.18",
+  "version": "1.0.19",
   "description": "Hyperbrowser Model Context Protocol Server",
   "name": "hyperbrowser-mcp",
   "main": "./dist/server.js",
