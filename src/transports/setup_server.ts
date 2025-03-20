@@ -25,6 +25,7 @@ import {
   scrapeWebpageToolName,
 } from "../tools/scrape-webpage";
 import {
+  bingSearchToolParamSchemaRaw,
   browserUseToolParamSchemaRaw,
   claudeComputerUseToolParamSchemaRaw,
   crawlWebpagesToolParamSchemaRaw,
@@ -45,6 +46,11 @@ import {
   claudeComputerUseToolDescription,
   claudeComputerUseToolName,
 } from "../tools/claude-computer-use";
+import {
+  bingSearchTool,
+  bingSearchToolDescription,
+  bingSearchToolName,
+} from "../tools/bing-search";
 
 function setupServer(server: McpServer) {
   server.tool(
@@ -83,6 +89,13 @@ function setupServer(server: McpServer) {
     claudeComputerUseToolDescription,
     claudeComputerUseToolParamSchemaRaw,
     claudeComputerUseTool
+  );
+
+  server.tool(
+    bingSearchToolName,
+    bingSearchToolDescription,
+    bingSearchToolParamSchemaRaw,
+    bingSearchTool
   );
 
   server.server.setRequestHandler(ListResourcesRequestSchema, listAllResources);

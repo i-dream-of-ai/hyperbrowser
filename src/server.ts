@@ -14,7 +14,6 @@ const SSE_PORT = process.env.SSE_PORT || 3001;
 async function main() {
   // Check if SSE transport is requested via command line flag
   const useSSE = process.argv.includes("--sse");
-  console.log(JSON.stringify(process.argv, null, 2));
   if (useSSE) {
     await createSSEServer().then((app) =>
       app.listen(SSE_PORT, () => {
