@@ -221,3 +221,26 @@ export const claudeComputerUseToolParamSchema = z.object(
 export type ClaudeComputerUseToolParamSchemaType = z.infer<
   typeof claudeComputerUseToolParamSchema
 >;
+
+// Bing search
+
+// Scrape Webpage
+
+export const bingSearchToolParamSchemaRaw = {
+  query: z.string().describe("The search query to submit to Bing"),
+  sessionOptions: sessionOptionsSchema,
+  numResults: z
+    .number()
+    .int()
+    .positive()
+    .min(1)
+    .max(50)
+    .default(10)
+    .describe("Number of search results to return"),
+};
+
+export const bingSearchToolParamSchema = z.object(bingSearchToolParamSchemaRaw);
+
+export type BingSearchToolParamSchemaType = z.infer<
+  typeof bingSearchToolParamSchema
+>;
