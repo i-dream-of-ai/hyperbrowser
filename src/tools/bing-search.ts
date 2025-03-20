@@ -6,7 +6,7 @@ import { BingSearchToolParamSchemaType } from "./tool-types";
 
 const searchResultSchema = z.object({
   title: z.string().describe("The title of the search result"),
-  url: z.string().url().describe("The URL of the search result"),
+  url: z.string().describe("The URL of the search result"),
   snippet: z.string().describe("The snippet of the search result"),
 });
 
@@ -26,8 +26,8 @@ export async function bingSearchTool({
 
     const result = await client.extract.startAndWait({
       urls: [encodedUrl],
-      sessionOptions,
-      prompt: `Extract the top ${numResults} from this search results page.`,
+      sessionOptions: { ...sessionOptions, adblock: true, useProxy: false },
+      prompt: `Extract the top ${numResults} search results from this page.`,
       schema: searchResultsSchema,
     });
 

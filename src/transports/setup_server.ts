@@ -84,19 +84,19 @@ function setupServer(server: McpServer) {
     oaiCuaTool
   );
 
-  // server.tool(
-  //   claudeComputerUseToolName,
-  //   claudeComputerUseToolDescription,
-  //   claudeComputerUseToolParamSchemaRaw,
-  //   claudeComputerUseTool
-  // );
+  server.tool(
+    claudeComputerUseToolName,
+    claudeComputerUseToolDescription,
+    claudeComputerUseToolParamSchemaRaw,
+    claudeComputerUseTool
+  );
 
-  // server.tool(
-  //   bingSearchToolName,
-  //   bingSearchToolDescription,
-  //   bingSearchToolParamSchemaRaw,
-  //   bingSearchTool
-  // );
+  server.tool(
+    bingSearchToolName,
+    bingSearchToolDescription,
+    bingSearchToolParamSchemaRaw,
+    bingSearchTool
+  );
 
   server.server.setRequestHandler(ListResourcesRequestSchema, listAllResources);
   server.server.setRequestHandler(ReadResourceRequestSchema, getResource);
