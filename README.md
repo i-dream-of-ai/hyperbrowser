@@ -1,6 +1,6 @@
 # Hyperbrowser MCP Server
 
-This project is a server implementation for the Hyperbrowser using the Model Context Protocol (MCP). The server provides various tools to scrape, extract structured data, and crawl webpages.
+This project is a server implementation for the Hyperbrowser using the Model Context Protocol (MCP). The server provides various tools to scrape, extract structured data, and crawl webpages. It also provides easy access to general purpose browser agents like OpenAI's CUA, Anthropic's Claude Computer Use, and Browser Use.
 
 More information about the Hyperbrowser can be found [here](https://docs.hyperbrowser.ai/). The hyperbrowser API supports a superset of features present in the mcp server.
 
@@ -10,11 +10,7 @@ More information about the Model Context Protocol can be found [here](https://mo
 
 - [Installation](#installation)
 - [Usage](#usage)
-  - [Example config](#example-config)
 - [Tools](#tools)
-  - [Scrape Webpage](#scrape-webpage)
-  - [Extract Structured Data](#extract-structured-data)
-  - [Crawl Webpages](#crawl-webpages)
 - [Configuration](#configuration)
 - [License](#license)
 
@@ -23,7 +19,39 @@ More information about the Model Context Protocol can be found [here](https://mo
 To install the server, run:
 
 ```bash
-npx hyperbrowser-mcp
+npx hyperbrowser-mcp <YOUR-HYPERBROWSER-API-KEY>
+```
+
+## Running on Cursor
+Add to `~/.cursor/mcp.json` like this:
+```json
+{
+  "mcpServers": {
+    "hyperbrowser": {
+      "command": "npx",
+      "args": ["-y", "hyperbrowser-mcp"],
+      "env": {
+        "HYPERBROWSER_API_KEY": "YOUR-API-KEY"
+      }
+    }
+  }
+}
+```
+
+## Running on Windsurf
+Add to your `./codeium/windsurf/model_config.json` like this:
+```json
+{
+  "mcpServers": {
+    "hyperbrowser": {
+      "command": "npx",
+      "args": ["-y", "hyperbrowser-mcp"],
+      "env": {
+        "HYPERBROWSER_API_KEY": "YOUR-API-KEY"
+      }
+    }
+  }
+}
 ```
 
 ### Development
@@ -50,8 +78,7 @@ For development purposes, you can run the server directly from the source code.
    node dist/server.js
    ```
 
-### Example config
-
+## Claude Desktop app
 This is an example config for the Hyperbrowser MCP server for the Claude Desktop client.
 
 ```json
@@ -68,106 +95,20 @@ This is an example config for the Hyperbrowser MCP server for the Claude Desktop
 }
 ```
 
-Other client (such as Cursor) do not support the `env` field in the config or as a part of the command param. In that case, you can use a shell script to run the server with the correct environment variable. An example shell script is provided in the repository as `run_server.sh`.
-
-```json
-{
-  "mcpServers": {
-    "hyperbrowser": {
-      "command": "bash",
-      "args": ["/path/to/hyperbrowser-mcp/run_server.sh"]
-    }
-  }
-}
-```
-
-### Running with SSE
-
-The server can also be run in Server-Sent Events (SSE) mode, which allows for real-time communication over HTTP. To run the server in SSE mode, use the `--sse` flag:
-
-```bash
-npx --yes hyperbrowser-mcp --sse
-```
-
-## Specifying the port for SSE
-
-By default, the SSE server will start on port 3001. The port can be customized using the `SSE_PORT` env var.
-
-```bash
-SSE_PORT=3010 npx --yes hyperbrowser-mcp --sse
-```
-
-If for some reason you can't provide the API key in the config or in a shell script, you can set it within whatever prompt you are using. It will be upto the mcp client to pass it to the server.
 
 ## Tools
+* `scrape_webpage` - Extract formatted (markdown, screenshot etc) content from any webpage 
+* `crawl_webpages` - Navigate through multiple linked pages and extract LLM-friendly formatted content
+* `extract_structured_data` - Convert messy HTML into structured JSON
+* `search_with_bing` - Query the web and get results with Bing search
+* `browser_use_agent` - Fast, lightweight browser automation with the Browser Use agent
+* `openai_computer_use_agent` - General-purpose automation using OpenAI’s CUA model
+* `claude_computer_use_agent` - Complex browser tasks using Claude computer use
 
-### Scrape Webpage
-
-This tool allows you to scrape a webpage and retrieve content in various formats such as markdown, HTML, links, and screenshots.
-
-#### Parameters:
-
-- `url`: The URL of the webpage to scrape.
-- `apiKey`: (Optional) The API key to use for browser control. If not provided, then will look for the API Key in the environment variables.
-- `sessionOptions`: (Optional) Options for the browser session.
-- `outputFormat`: The format of the output (from a list of markdown, html, links, screenshot).
-
-### Extract Structured Data
-
-This tool extracts structured information from a list of webpages using a specified prompt and JSON schema.
-
-#### Parameters:
-
-- `urls`: The list of URLs of the webpages to extract structured information from.
-- `apiKey`: (Optional) The API key to use for browser control. If not provided, then will look for the API Key in the environment variables.
-- `sessionOptions`: (Optional) Options for the browser session.
-- `prompt`: (Optional - if not provided, the tool will try to infer the prompt from the schema) The prompt to use for the extraction.
-- `schema`: (Optional - if not provided, the tool will try to infer the schema from the prompt) The JSON schema to use for the extraction.
-
-### Crawl Webpages
-
-This tool crawls a list of webpages, optionally following links and limiting the number of pages.
-
-#### Parameters:
-
-- `url`: The URL of the webpage to crawl.
-- `apiKey`: (Optional) The API key to use for browser control. If not provided, then will look for the API Key in the environment variables.
-- `sessionOptions`: (Optional) Options for the browser session.
-- `outputFormat`: The format of the output (from a list of markdown, html, links, screenshot).
-- `followLinks`: Whether to follow links on the crawled webpages.
-- `maxPages`: The maximum number of pages to crawl.
-
-### Browser Use
-
-This tool creates a Browser Use session, and uses taht to accomplish the task provided.
-**Note: This can be a very long running process depending on the task, so make sure that the timeout is configured accordingly.**
-
-#### Parameters:
-
-- `task`: The task to accomplish using Browser Use.
-- `apiKey`: (Optional) The API key to use for browser control. If not provided, then will look for the API Key in the environment variables.
-- `sessionOptions`: (Optional) Options for the browser session.
-- `returnStepInfo`: (Optional) Returns the information about the intermediate steps taked. **Note that this is a large amount of information and can fill up the context window very quickly. We recommend setting this to `false`**.
-- `maxSteps`: (Optional) The maximum number of steps to perform while doing the task.
-
-### Session Options
-
-The `sessionOptions` parameter allows you to configure various aspects of the browser session. It is an optional parameter and can include the following fields:
-
-- `useProxy`: (Optional) Whether to use a proxy.
-- `useStealth`: (Optional) Whether to use stealth mode.
-- `solveCaptchas`: (Optional) Whether to solve captchas.
-- `acceptCookies`: (Optional) Whether to automatically close the accept cookies popup.
-
-These options help in customizing the behavior of the browser session to suit your specific needs.
 
 ## Resources
 
 The server provides the documentation about hyperbrowser through the `resources` methods. Any client which can do discovery over resources has access to it.
-
-## Configuration
-
-The server can be configured using environment variables or by modifying the source code directly. Ensure that the `HYPERBROWSER_API_KEY` environment variable is set if you are not providing an API key directly in the requests.
 
 ## License
 
