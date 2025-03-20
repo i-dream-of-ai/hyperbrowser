@@ -9,10 +9,10 @@
   dependencies:
     "@jridgewell/trace-mapping" "0.3.9"
 
-"@hyperbrowser/sdk@^0.37.0":
-  version "0.37.0"
-  resolved "https://registry.yarnpkg.com/@hyperbrowser/sdk/-/sdk-0.37.0.tgz#5961b60d57ef6622567216188a2389bbe0ea30f3"
-  integrity sha512-ZC2HI+UALaRJj76nJAhBAJuS6NpSEw4QeQxdA7rVdrAdXyhuvSpWA+uRaqai0ixuLuJgC9suJ6pU8UOIcvBVrw==
+"@hyperbrowser/sdk@^0.39.0":
+  version "0.39.0"
+  resolved "https://registry.yarnpkg.com/@hyperbrowser/sdk/-/sdk-0.39.0.tgz#fc9c867178339d89bf8655852c2ebf798e51bdcb"
+  integrity sha512-KHBdQqUYr1rsjOHfFQRUPmkda5qIRZEt/I+GkrSKPdX9yrKz9LM0I+fCp7FfT/JU8PrKY7nHKRWCwAU9JQutYA==
   dependencies:
     form-data "^4.0.1"
     node-fetch "2.7.0"

@@ -1,13 +1,13 @@
 import { CallToolResult } from "@modelcontextprotocol/sdk/types.js";
 import { getClient } from "../utils";
-import { oaiCuaToolParamSchemaType } from "./tool-types";
+import { ClaudeComputerUseToolParamSchemaType } from "./tool-types";
 
-export async function oaiCuaTool({
+export async function claudeComputerUseTool({
   task,
   sessionOptions,
   returnStepInfo,
   maxSteps,
-}: oaiCuaToolParamSchemaType): Promise<CallToolResult> {
+}: ClaudeComputerUseToolParamSchemaType): Promise<CallToolResult> {
   try {
     const client = await getClient();
 
@@ -66,19 +66,19 @@ export async function oaiCuaTool({
   }
 }
 
-export const oaiCuaToolName = "openai_computer_use_agent";
-export const oaiCuaToolDescription = `
-This tool utilizes OpenAI's model to autonomously execute general-purpose browser-based tasks with balanced performance and reliability using a cloud browser. It handles complex interactions effectively with practical reasoning and clear execution.
+export const claudeComputerUseToolName = "claude_computer_use_agent";
+export const claudeComputerUseToolDescription = `
+This tool leverages Anthropic's Claude model to autonomously execute complex browser tasks with sophisticated reasoning capabilities using a cloud browser. It specializes in handling intricate, nuanced, or highly context-sensitive web interactions.
 
 Optimal for tasks requiring:
-- Reliable, general-purpose browser automation
-- Clear, structured interactions with moderate complexity
-- Efficient handling of common web tasks and workflows
+- Complex reasoning over multiple web pages
+- Nuanced interpretation and flexible decision-making
+- Human-like interaction with detailed context awareness
 
 Best suited use cases include:
-- Standard multi-step registration or form submissions
-- Navigating typical web applications requiring multiple interactions
-- Conducting structured web research tasks
-- Extracting data through interactive web processes
+- Multi-step processes requiring reasoning (e.g., detailed registrations or onboarding)
+- Interacting intelligently with advanced web apps
+- Conducting in-depth research with complex conditions
+- Extracting information from dynamic or interactive websites
 
-Provide a clear step-by-step description, necessary context, and expected outcomes. Returns the completed result or an error message if issues arise.`.trim();
+Provide detailed task instructions, relevant context, and clearly specify the desired outcome for best results. Returns the completed result or an error message if issues arise.`.trim();

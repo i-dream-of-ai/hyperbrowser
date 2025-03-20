@@ -1,7 +1,6 @@
 import { CallToolResult } from "@modelcontextprotocol/sdk/types.js";
 import { getClient } from "../utils";
 import { browserUseToolParamSchemaType } from "./tool-types";
-import { oaiCuaToolName } from "./oai-cua";
 
 export async function browserUseTool({
   task,
@@ -65,24 +64,19 @@ export async function browserUseTool({
 
 export const browserUseToolName = "browser_use_agent";
 export const browserUseToolDescription = `
-This tool uses an open-source browser automation agent to perform browser-based tasks using a cloud browser. \
-It can navigate websites, fill forms, extract information, and interact with web applications.
+This tool employs an open-source browser automation agent optimized specifically for fast, efficient, and cost-effective browser tasks using a cloud browser. It requires explicit, detailed instructions to perform highly specific interactions quickly.
 
-This tool is ideal for tasks that require multi-step browser interactions that cannot be accomplished with simpler tools \
-like scraping, screenshots, or web extraction. For optimal results:
-1. Provide **extremely detailed, explicit step-by-step instructions** for the task
-2. Include **all** relevant context (credentials, form data, specific instructions)
-3. Specify the **exact elements** to interact with and **precise actions** to take
-4. Clearly define the **expected outcome** or information to retrieve
+Optimal for tasks requiring:
+- Precise, explicitly defined interactions and actions
+- Speed and efficiency with clear, unambiguous instructions
+- Cost-effective automation at scale with straightforward workflows
 
-Example use cases:
-- Completing registration processes with explicit guidance
-- Navigating web applications with detailed instructions
-- Performing research across multiple pages with clear directions
-- Extracting data that requires specific interaction steps
+Best suited use cases include:
+- Explicitly defined registration and login processes
+- Clearly guided navigation through web apps
+- Structured, step-by-step web scraping with detailed guidance
+- Extracting data via explicitly specified browser interactions
 
-Note: This agent requires more explicit guidance than other tools but offers faster performance and lower cost. \
-Be prepared to provide **very detailed instructions** for optimal results. If you need higher accuracy but are \
-willing to spend more time and money on the task, you should use the ${oaiCuaToolName} tool instead.
+You must provide extremely detailed step-by-step instructions, including exact elements, actions, and explicit context. Clearly define the desired outcome for optimal results. Returns the completed result or an error message if issues arise.
 
-The tool will return the final result upon completion or an error message if it encounters issues.`.trim();
+Note: This agent trades off flexibility for significantly faster performance and lower costs compared to Claude and OpenAI agents.`.trim();

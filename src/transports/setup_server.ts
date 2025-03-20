@@ -26,6 +26,7 @@ import {
 } from "../tools/scrape-webpage";
 import {
   browserUseToolParamSchemaRaw,
+  claudeComputerUseToolParamSchemaRaw,
   crawlWebpagesToolParamSchemaRaw,
   extractStructuredDataToolParamSchemaRaw,
   oaiCuaToolParamSchemaRaw,
@@ -39,6 +40,11 @@ import {
   listAllResources,
   getResource,
 } from "../resources/static/get_resources";
+import {
+  claudeComputerUseTool,
+  claudeComputerUseToolDescription,
+  claudeComputerUseToolName,
+} from "../tools/claude-computer-use";
 
 function setupServer(server: McpServer) {
   server.tool(
@@ -70,6 +76,13 @@ function setupServer(server: McpServer) {
     oaiCuaToolDescription,
     oaiCuaToolParamSchemaRaw,
     oaiCuaTool
+  );
+
+  server.tool(
+    claudeComputerUseToolName,
+    claudeComputerUseToolDescription,
+    claudeComputerUseToolParamSchemaRaw,
+    claudeComputerUseTool
   );
 
   server.server.setRequestHandler(ListResourcesRequestSchema, listAllResources);
