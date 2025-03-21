@@ -10,8 +10,8 @@ export const sessionOptionsSchema = z
   .object({
     useProxy: z
       .boolean()
-      .default(true)
-      .describe("Whether to use a proxy. Recommended true."),
+      .default(false)
+      .describe("Whether to use a proxy. Recommended false."),
     useStealth: z
       .boolean()
       .default(false)
@@ -125,7 +125,7 @@ export const crawlWebpagesToolParamSchemaRaw = {
     .finite()
     .safe()
     .min(1)
-    .max(1000)
+    .max(100)
     .default(10),
   ignoreSitemap: z.boolean().default(false),
 };
