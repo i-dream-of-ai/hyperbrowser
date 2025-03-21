@@ -19,14 +19,6 @@ More information about the Model Context Protocol can be found [here](https://mo
 
 ## Installation
 
-### Installing via Smithery
-
-To install Hyperbrowser MCP Server for Claude Desktop automatically via [Smithery](https://smithery.ai/server/@hyperbrowserai/mcp):
-
-```bash
-npx -y @smithery/cli install @hyperbrowserai/mcp --client claude
-```
-
 ### Manual Installation
 To install the server, run:
 
@@ -117,6 +109,13 @@ This is an example config for the Hyperbrowser MCP server for the Claude Desktop
 * `openai_computer_use_agent` - General-purpose automation using OpenAI’s CUA model
 * `claude_computer_use_agent` - Complex browser tasks using Claude computer use
 
+### Installing via Smithery
+
+To install Hyperbrowser MCP Server for Claude Desktop automatically via [Smithery](https://smithery.ai/server/@hyperbrowserai/mcp):
+
+```bash
+npx -y @smithery/cli install @hyperbrowserai/mcp --client claude
+```
 
 ## Resources
 
