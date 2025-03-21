@@ -11,7 +11,7 @@ export async function claudeComputerUseTool({
   try {
     const client = await getClient();
 
-    const result = await client.agents.cua.startAndWait({
+    const result = await client.agents.claudeComputerUse.startAndWait({
       task,
       sessionOptions,
       maxSteps,

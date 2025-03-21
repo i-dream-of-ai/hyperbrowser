@@ -156,8 +156,8 @@ export const browserUseToolParamSchemaRaw = {
     .finite()
     .safe()
     .min(1)
-    .max(1000)
-    .default(10),
+    .max(100)
+    .default(25),
 };
 
 export const browserUseToolParamSchema = z.object(browserUseToolParamSchemaRaw);
@@ -184,8 +184,8 @@ export const oaiCuaToolParamSchemaRaw = {
     .finite()
     .safe()
     .min(1)
-    .max(1000)
-    .default(10),
+    .max(100)
+    .default(25),
 };
 
 export const oaiCuaToolParamSchema = z.object(oaiCuaToolParamSchemaRaw);
@@ -210,8 +210,8 @@ export const claudeComputerUseToolParamSchemaRaw = {
     .finite()
     .safe()
     .min(1)
-    .max(1000)
-    .default(10),
+    .max(100)
+    .default(25),
 };
 
 export const claudeComputerUseToolParamSchema = z.object(
