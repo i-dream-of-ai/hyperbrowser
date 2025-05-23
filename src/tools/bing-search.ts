@@ -1,5 +1,10 @@
 import { z } from "zod";
-import { CallToolResult } from "@modelcontextprotocol/sdk/types.js";
+import {
+  CallToolResult,
+  ServerRequest,
+  ServerNotification,
+} from "@modelcontextprotocol/sdk/types.js";
+import { RequestHandlerExtra } from "@modelcontextprotocol/sdk/shared/protocol.js";
 
 import { getClient } from "../utils";
 import { BingSearchToolParamSchemaType } from "./tool-types";
@@ -14,13 +19,19 @@ const searchResultsSchema = z.object({
   allSearchResults: z.array(searchResultSchema),
 });
 
-export async function bingSearchTool({
-  query,
-  numResults,
-  sessionOptions,
-}: BingSearchToolParamSchemaType): Promise<CallToolResult> {
+export async function bingSearchTool(
+  params: BingSearchToolParamSchemaType,
+  extra: RequestHandlerExtra<ServerRequest, ServerNotification>
+): Promise<CallToolResult> {
+  const { query, numResults, sessionOptions } = params;
+
+  let apiKey: string | undefined = undefined;
+  if (extra.authInfo && extra.authInfo.extra?.isSSE) {
+    apiKey = extra.authInfo.token;
+  }
+
   try {
-    const client = await getClient();
+    const client = await getClient({ hbApiKey: apiKey });
 
     const encodedUrl = encodeURI(`https://www.bing.com/search?q=${query}`);
 

@@ -3,8 +3,9 @@ import { Hyperbrowser } from "@hyperbrowser/sdk";
 
 config();
 
-export const getClient = async () => {
-  const apiKey = process.env.HB_API_KEY || process.env.HYPERBROWSER_API_KEY;
+export const getClient = async ({ hbApiKey }: { hbApiKey?: string }) => {
+  const apiKey =
+    hbApiKey || process.env.HB_API_KEY || process.env.HYPERBROWSER_API_KEY;
   if (!apiKey) {
     throw new Error("No API key provided or found in environment variables");
   }

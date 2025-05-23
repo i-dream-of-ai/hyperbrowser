@@ -1,16 +1,27 @@
-import { CallToolResult } from '@modelcontextprotocol/sdk/types.js';
-import { getClient } from '../utils.js'; // Import getClient
-import { deleteProfileToolParamSchemaType } from './tool-types.js'; // Import the Zod-derived type
-import { HyperbrowserError } from '@hyperbrowser/sdk'; // Import SDK error type
+import {
+  CallToolResult,
+  ServerRequest,
+  ServerNotification,
+} from "@modelcontextprotocol/sdk/types.js";
+import { RequestHandlerExtra } from "@modelcontextprotocol/sdk/shared/protocol.js";
+import { getClient } from "../utils.js"; // Import getClient
+import { deleteProfileToolParamSchemaType } from "./tool-types.js"; // Import the Zod-derived type
+import { HyperbrowserError } from "@hyperbrowser/sdk"; // Import SDK error type
 
 // The handler function receives parsed parameters
 export async function deleteProfileTool(
-  params: deleteProfileToolParamSchemaType
+  params: deleteProfileToolParamSchemaType,
+  extra: RequestHandlerExtra<ServerRequest, ServerNotification>
 ): Promise<CallToolResult> {
   const { profileId } = params; // Destructure validated profileId
 
+  let apiKey: string | undefined = undefined;
+  if (extra.authInfo && extra.authInfo.extra?.isSSE) {
+    apiKey = extra.authInfo.token;
+  }
+
   try {
-    const client = await getClient(); // Get client instance
+    const client = await getClient({ hbApiKey: apiKey }); // Get client instance
 
     // Call the SDK delete method
     await client.profiles.delete(profileId);
@@ -19,7 +30,7 @@ export async function deleteProfileTool(
     return {
       content: [
         {
-          type: 'text',
+          type: "text",
           text: `Successfully deleted profile with ID: ${profileId}`,
         },
       ],
@@ -36,7 +47,9 @@ export async function deleteProfileTool(
         // Optionally, you might decide this isn't a true 'error' state for the tool
         // isError = false; // Depending on desired behavior
       } else {
-        errorMessage = `Failed to delete profile ${profileId}: ${error.message} (Status: ${error.statusCode || 'N/A'})`;
+        errorMessage = `Failed to delete profile ${profileId}: ${
+          error.message
+        } (Status: ${error.statusCode || "N/A"})`;
       }
     } else if (error instanceof Error) {
       errorMessage = `Failed to delete profile ${profileId}: ${error.message}`;
@@ -44,13 +57,13 @@ export async function deleteProfileTool(
 
     // Return error result
     return {
-      content: [{ type: 'text', text: errorMessage }],
+      content: [{ type: "text", text: errorMessage }],
       isError: isError,
     };
   }
 }
 
 // Export name and description separately for registration
-export const deleteProfileToolName = 'delete_profile';
+export const deleteProfileToolName = "delete_profile";
 export const deleteProfileToolDescription =
-  'Deletes an existing persistent Hyperbrowser profile.';
+  "Deletes an existing persistent Hyperbrowser profile.";

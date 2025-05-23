@@ -1,17 +1,32 @@
-import { CallToolResult } from "@modelcontextprotocol/sdk/types.js";
+import {
+  CallToolResult,
+  ServerRequest,
+  ServerNotification,
+} from "@modelcontextprotocol/sdk/types.js";
+import { RequestHandlerExtra } from "@modelcontextprotocol/sdk/shared/protocol.js";
 import { getClient } from "../utils";
 import { crawlWebpagesToolParamSchemaType } from "./tool-types";
 
-export async function crawlWebpagesTool({
-  url,
-  sessionOptions,
-  outputFormat,
-  ignoreSitemap,
-  followLinks,
-  maxPages,
-}: crawlWebpagesToolParamSchemaType): Promise<CallToolResult> {
+export async function crawlWebpagesTool(
+  params: crawlWebpagesToolParamSchemaType,
+  extra: RequestHandlerExtra<ServerRequest, ServerNotification>
+): Promise<CallToolResult> {
+  const {
+    url,
+    sessionOptions,
+    outputFormat,
+    ignoreSitemap,
+    followLinks,
+    maxPages,
+  } = params;
+
+  let apiKey: string | undefined = undefined;
+  if (extra.authInfo && extra.authInfo.extra?.isSSE) {
+    apiKey = extra.authInfo.token;
+  }
+
   try {
-    const client = await getClient();
+    const client = await getClient({ hbApiKey: apiKey });
 
     const result = await client.crawl.startAndWait({
       url,

@@ -1,14 +1,26 @@
-import { CallToolResult } from "@modelcontextprotocol/sdk/types.js";
+import {
+  CallToolResult,
+  ServerRequest,
+  ServerNotification,
+} from "@modelcontextprotocol/sdk/types.js";
+import { RequestHandlerExtra } from "@modelcontextprotocol/sdk/shared/protocol.js";
 import { getClient, downloadImageAsBase64 } from "../utils";
 import { scrapeWebpageToolParamSchemaType } from "./tool-types";
 
-export async function scrapeWebpageTool({
-  url,
-  sessionOptions,
-  outputFormat,
-}: scrapeWebpageToolParamSchemaType): Promise<CallToolResult> {
+export async function scrapeWebpageTool(
+  params: scrapeWebpageToolParamSchemaType,
+  extra: RequestHandlerExtra<ServerRequest, ServerNotification>
+): Promise<CallToolResult> {
+  const { url, sessionOptions, outputFormat } = params;
+
+  let apiKey: string | undefined = undefined;
+  // Access authInfo from the extra parameter
+  if (extra.authInfo && extra.authInfo.extra?.isSSE) {
+    apiKey = extra.authInfo.token;
+  }
+
   try {
-    const client = await getClient();
+    const client = await getClient({ hbApiKey: apiKey });
 
     const result = await client.scrape.startAndWait({
       url,

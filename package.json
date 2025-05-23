@@ -23,8 +23,8 @@
     "publish": "rm -rf dist && rm -rf node_modules && npm i && npm run build && npm publish"
   },
   "dependencies": {
-    "@hyperbrowser/sdk": "^0.39.0",
-    "@modelcontextprotocol/sdk": "^1.6.0",
+    "@hyperbrowser/sdk": "^0.48.1",
+    "@modelcontextprotocol/sdk": "^1.12.0",
     "ajv": "^8.17.1",
     "axios": "^1.8.3",
     "dotenv": "^16.4.7",

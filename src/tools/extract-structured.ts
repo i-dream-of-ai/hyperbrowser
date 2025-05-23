@@ -1,23 +1,31 @@
-import { CallToolResult } from "@modelcontextprotocol/sdk/types.js";
+import {
+  CallToolResult,
+  ServerRequest,
+  ServerNotification,
+} from "@modelcontextprotocol/sdk/types.js";
+import { RequestHandlerExtra } from "@modelcontextprotocol/sdk/shared/protocol.js";
 import { getClient } from "../utils";
 import { extractStructuredDataToolParamSchemaType } from "./tool-types";
 
-export async function extractStructuredDataTool({
-  urls,
-  sessionOptions,
-  prompt,
-  schema,
-}: extractStructuredDataToolParamSchemaType): Promise<CallToolResult> {
+export async function extractStructuredDataTool(
+  params: extractStructuredDataToolParamSchemaType,
+  extra: RequestHandlerExtra<ServerRequest, ServerNotification>
+): Promise<CallToolResult> {
+  const { urls, sessionOptions, prompt, schema } = params;
+
+  let apiKey: string | undefined = undefined;
+  if (extra.authInfo && extra.authInfo.extra?.isSSE) {
+    apiKey = extra.authInfo.token;
+  }
+
   try {
-    const client = await getClient();
-    const params = {
+    const client = await getClient({ hbApiKey: apiKey });
+    const result = await client.extract.startAndWait({
       urls,
       sessionOptions,
       prompt,
       schema,
-    };
-
-    const result = await client.extract.startAndWait(params);
+    });
 
     if (result.error) {
       return {
